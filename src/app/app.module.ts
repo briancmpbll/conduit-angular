@@ -8,6 +8,7 @@ import {
 import { CoreModule } from './core/core.module';
 import { HomeModule } from './home/home.module';
 import { RouterModule } from '@angular/router';
+import { AuthModule } from './auth/auth.module';
 
 const rootRouting: ModuleWithProviders = RouterModule.forRoot([]);
 
@@ -21,6 +22,7 @@ const rootRouting: ModuleWithProviders = RouterModule.forRoot([]);
     CoreModule,
     HomeModule,
     rootRouting,
+    AuthModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
