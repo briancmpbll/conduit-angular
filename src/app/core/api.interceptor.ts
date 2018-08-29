@@ -12,7 +12,7 @@ export class ApiInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     request = request.clone({
-      url: `${environment.api_url}/${request.url}`,
+      url: `${environment.api_url}${request.url}`,
       setHeaders: {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
