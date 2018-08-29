@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { ErrorsListComponent } from './errors-list/errors-list.component';
 
 @NgModule({
   imports: [
@@ -12,13 +13,14 @@ import { RouterModule } from '@angular/router';
     HttpClientModule,
     RouterModule
   ],
-  declarations: [],
+  declarations: [ErrorsListComponent],
   exports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    RouterModule
+    RouterModule,
+    ErrorsListComponent,
   ]
 })
 export class SharedModule {}

@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { catchError } from 'rxjs/operators';
+import { Errors } from './models/errors.model';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +21,8 @@ export class ApiInterceptor implements HttpInterceptor {
       }
     });
 
-    return next.handle(request);
+    return next.handle(request).pipe(catchError(err => {
+      return throwError(err.error);
+    }));
   }
 }
