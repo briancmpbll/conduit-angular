@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 import { User, AuthCredentials } from './models/user.model';
 
@@ -11,7 +11,7 @@ export class UserService {
   private currentUserSubject = new BehaviorSubject<User>(new User);
   public currentUser = this.currentUserSubject.asObservable().pipe(distinctUntilChanged());
 
-  private isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
+  private isAuthenticatedSubject = new ReplaySubject<boolean>(1);
   public isAuthenticated = this.isAuthenticatedSubject.asObservable();
 
   constructor(private http: HttpClient) { }
