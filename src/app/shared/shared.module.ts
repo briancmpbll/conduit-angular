@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { ErrorsListComponent } from './errors-list/errors-list.component';
+import { IfAuthedDirective } from './if-authed/if-authed.directive';
 
 @NgModule({
   imports: [
@@ -13,7 +14,7 @@ import { ErrorsListComponent } from './errors-list/errors-list.component';
     HttpClientModule,
     RouterModule
   ],
-  declarations: [ErrorsListComponent],
+  declarations: [ErrorsListComponent, IfAuthedDirective],
   exports: [
     CommonModule,
     FormsModule,
@@ -21,6 +22,7 @@ import { ErrorsListComponent } from './errors-list/errors-list.component';
     HttpClientModule,
     RouterModule,
     ErrorsListComponent,
+    IfAuthedDirective,
   ]
 })
 export class SharedModule {}

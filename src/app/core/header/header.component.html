@@ -8,23 +8,45 @@
         <a class="nav-link" routerLink='/'>Home</a>
       </li>
 
-      <li class="nav-item">
-        <a class="nav-link"
-          routerLink="/login"
-          routerLinkActive="active"
-        >
-          Sign In
-        </a>
-      </li>
+      <ng-container *appIfAuthed="false">
+        <li class="nav-item">
+          <a class="nav-link"
+            routerLink="/login"
+            routerLinkActive="active"
+          >
+            Sign In
+          </a>
+        </li>
 
-      <li class="nav-item">
-        <a class="nav-link"
-          routerLink="/register"
-          routerLinkActive="active"
-        >
-          Sign up
-        </a>
-      </li>
+        <li class="nav-item">
+          <a class="nav-link"
+            routerLink="/register"
+            routerLinkActive="active"
+          >
+            Sign up
+          </a>
+        </li>
+      </ng-container>
+
+      <ng-container *appIfAuthed="true">
+        <li class="nav-item">
+          <a class="nav-link">
+            <i class="ion-compose"></i>&nbsp;New Article
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link">
+            <i class="ion-gear"></i>&nbsp;Settings
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link">
+            My Profile
+          </a>
+        </li>
+      </ng-container>
 
     </ul>
 
