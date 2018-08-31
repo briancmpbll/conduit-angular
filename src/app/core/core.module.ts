@@ -3,8 +3,8 @@ import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
 import { SharedModule } from '../shared/shared.module';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { ApiInterceptor } from './api.interceptor';
-import { UserService } from './user.service';
+import { ApiInterceptor } from './services/api.interceptor';
+import { UserService } from './services/user.service';
 
 @NgModule({
   imports: [
