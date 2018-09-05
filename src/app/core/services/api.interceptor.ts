@@ -4,13 +4,16 @@ import { Observable, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { catchError } from 'rxjs/operators';
 import { Errors } from '../models/errors.model';
+import { JwtService } from './jwt.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiInterceptor implements HttpInterceptor {
 
-  constructor() { }
+  constructor(
+    private jwtService: JwtService
+  ) { }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     request = request.clone({
@@ -20,6 +23,15 @@ export class ApiInterceptor implements HttpInterceptor {
         'Accept': 'application/json'
       }
     });
+
+    const token = this.jwtService.getToken();
+    if (token !== null) {
+      request = request.clone({
+        setHeaders: {
+          'Authorization': `Token ${token}`
+        }
+      });
+    }
 
     return next.handle(request).pipe(catchError(err => {
       return throwError(err.error);

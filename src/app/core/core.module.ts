@@ -5,6 +5,7 @@ import { SharedModule } from '../shared/shared.module';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ApiInterceptor } from './services/api.interceptor';
 import { UserService } from './services/user.service';
+import { JwtService } from './services/jwt.service';
 
 @NgModule({
   imports: [
@@ -14,6 +15,7 @@ import { UserService } from './services/user.service';
   exports: [FooterComponent, HeaderComponent],
   providers: [
     UserService,
+    JwtService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ApiInterceptor,
