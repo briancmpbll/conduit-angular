@@ -1,3 +1,4 @@
+import { environment } from './../environments/environment';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -10,7 +11,9 @@ import { HomeModule } from './home/home.module';
 import { RouterModule } from '@angular/router';
 import { AuthModule } from './auth/auth.module';
 
-const rootRouting: ModuleWithProviders = RouterModule.forRoot([]);
+const rootRouting: ModuleWithProviders = RouterModule.forRoot([], {
+  enableTracing: !environment.production
+});
 
 @NgModule({
   declarations: [

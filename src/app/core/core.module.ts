@@ -1,3 +1,4 @@
+import { NoAuthGuard } from './guards/no-auth.guard';
 import { NgModule } from '@angular/core';
 import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
@@ -6,6 +7,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ApiInterceptor } from './services/api.interceptor';
 import { UserService } from './services/user.service';
 import { JwtService } from './services/jwt.service';
+import { AuthGuard } from './guards/auth.guard';
 
 @NgModule({
   imports: [
@@ -16,6 +18,8 @@ import { JwtService } from './services/jwt.service';
   providers: [
     UserService,
     JwtService,
+    NoAuthGuard,
+    AuthGuard,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ApiInterceptor,
