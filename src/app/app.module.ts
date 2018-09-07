@@ -10,6 +10,7 @@ import { CoreModule } from './core/core.module';
 import { HomeModule } from './home/home.module';
 import { RouterModule } from '@angular/router';
 import { AuthModule } from './auth/auth.module';
+import { SettingsModule } from './settings/settings.module';
 
 const rootRouting: ModuleWithProviders = RouterModule.forRoot([], {
   enableTracing: !environment.production
@@ -26,6 +27,7 @@ const rootRouting: ModuleWithProviders = RouterModule.forRoot([], {
     HomeModule,
     rootRouting,
     AuthModule,
+    SettingsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

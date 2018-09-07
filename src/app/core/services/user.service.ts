@@ -45,7 +45,15 @@ export class UserService {
     }
   }
 
-  private purgeAuth() {
+  update(user: User): Observable<User> {
+    return this.http.put<{user: User}>('/user', { user }).pipe(
+    map(data => {
+      this.currentUserSubject.next(data.user);
+      return data.user;
+    }));
+  }
+
+  purgeAuth() {
     this.jwtService.destroyToken();
     this.currentUserSubject.next(new User);
     this.isAuthenticatedSubject.next(false);
