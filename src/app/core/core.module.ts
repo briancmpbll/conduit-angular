@@ -1,3 +1,4 @@
+import { ProfileService } from './services/profile.service';
 import { NoAuthGuard } from './guards/no-auth.guard';
 import { NgModule } from '@angular/core';
 import { FooterComponent } from './footer/footer.component';
@@ -17,6 +18,7 @@ import { AuthGuard } from './guards/auth.guard';
   exports: [FooterComponent, HeaderComponent],
   providers: [
     UserService,
+    ProfileService,
     JwtService,
     NoAuthGuard,
     AuthGuard,
