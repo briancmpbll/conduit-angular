@@ -1,19 +1,22 @@
 import { UserService } from './../../core/services/user.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { User } from './../../core/models/user.model';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.css']
 })
-export class SettingsComponent implements OnInit {
+export class SettingsComponent implements OnInit, OnDestroy {
   user: User = new User();
   settingsForm: FormGroup;
   errors: Object = {};
   isSubmitting = false;
+
+  private userSubscription?: Subscription;
 
   constructor(
     private router: Router,
@@ -30,8 +33,16 @@ export class SettingsComponent implements OnInit {
   }
 
   ngOnInit() {
-    Object.assign(this.user, this.userService.getCurrentUser());
-    this.settingsForm.patchValue(this.user);
+    this.userSubscription = this.userService.currentUser.subscribe(newUser => {
+      this.user = newUser;
+      this.settingsForm.patchValue(this.user);
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.userSubscription) {
+      this.userSubscription.unsubscribe();
+    }
   }
 
   logout() {
@@ -42,19 +53,13 @@ export class SettingsComponent implements OnInit {
   submitForm() {
     this.isSubmitting = true;
 
-    this.updateUser(this.settingsForm.value);
-
-    this.userService.update(this.user)
+    this.userService.update(this.settingsForm.value)
     .subscribe(updatedUser => {
       this.router.navigateByUrl(`/profile/${updatedUser.username}`);
     }, err => {
       this.errors = err;
       this.isSubmitting = false;
     });
-  }
-
-  updateUser(values: Object) {
-    Object.assign(this.user, values);
   }
 
 }
