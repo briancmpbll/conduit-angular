@@ -3,6 +3,7 @@ import { ProfileResolverGuard } from './profile-resolver.guard';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProfileComponent } from './profile/profile.component';
+import { FollowButtonComponent } from './follow-button/follow-button.component';
 
 const profileRouting = RouterModule.forChild([
   {
@@ -19,7 +20,7 @@ const profileRouting = RouterModule.forChild([
     CommonModule,
     profileRouting
   ],
-  declarations: [ProfileComponent],
+  declarations: [ProfileComponent, FollowButtonComponent],
   providers: [
     ProfileResolverGuard
   ]
