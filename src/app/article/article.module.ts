@@ -2,11 +2,11 @@ import { AuthGuard } from '../core/guards/auth.guard';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
 import { NgModule } from '@angular/core';
-import { EditableArticleResolverGuard } from './editable-article-resolver.guard';
+import { EditableArticleResolverGuard } from './guards/editable-article-resolver.guard';
 import { ArticleEditorComponent } from './article-editor/article-editor.component';
 import { ArticleComponent } from './article/article.component';
-import { ArticleResolverGuard } from './article-resolver.guard';
-import { ArticleService } from './article.service';
+import { ArticleResolverGuard } from './guards/article-resolver.guard';
+import { ArticleService } from './services/article.service';
 import { MarkdownPipe } from './markdown.pipe';
 import { ArticleMetaComponent } from './article-meta/article-meta.component';
 

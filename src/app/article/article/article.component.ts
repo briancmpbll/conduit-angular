@@ -1,4 +1,4 @@
-import { ArticleService } from '../article.service';
+import { ArticleService } from '../services/article.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Article } from './../../core/models/article.model';
 import { Component, OnInit } from '@angular/core';

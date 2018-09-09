@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from '../../core/services/user.service';
-import { ArticleService } from './../../article/article.service';
+import { ArticleService } from '../../article/services/article.service';
 import { Article } from './../../core/models/article.model';
 import { catchError, finalize } from 'rxjs/operators';
 
