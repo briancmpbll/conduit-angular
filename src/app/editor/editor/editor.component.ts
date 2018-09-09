@@ -3,6 +3,7 @@ import { Article } from '../../core/models/article.model';
 import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import { ArticleService } from '../../core/services/article.service';
 import { ActivatedRoute, Router, Data } from '@angular/router';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-editor',
@@ -55,14 +56,18 @@ export class EditorComponent implements OnInit {
     this.isSubmitting = true;
 
     this.articleService.save({
+      slug: this.article.slug,
       ...this.articleForm.value,
       tagList: this.article.tagList
-    }).subscribe(
+    })
+    .pipe(
+      finalize(() => this.isSubmitting = false)
+    )
+    .subscribe(
       article => this.router.navigateByUrl(`/editor/${article.slug}`),
       err => {
         this.errors = err;
-      },
-      () => this.isSubmitting = false
+      }
     );
   }
 

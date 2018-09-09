@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../core/services/user.service';
 import { Errors } from '../../core/models/errors.model';
 import { AuthCredentials } from '../../core/models/user.model';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-auth',
@@ -43,11 +44,14 @@ export class AuthComponent implements OnInit {
     this.errors = new Errors();
 
     const credentials: AuthCredentials = this.authForm.value;
-    this.userService.attemptAuth(this.authType, credentials).subscribe(
+    this.userService.attemptAuth(this.authType, credentials)
+    .pipe(
+      finalize(() => this.isSubmitting = false)
+    )
+    .subscribe(
       data => this.router.navigateByUrl('/'),
       err => {
         this.errors = err;
-        this.isSubmitting = false;
       }
     );
   }

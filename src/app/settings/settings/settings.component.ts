@@ -4,6 +4,7 @@ import { User } from './../../core/models/user.model';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-settings',
@@ -54,11 +55,13 @@ export class SettingsComponent implements OnInit, OnDestroy {
     this.isSubmitting = true;
 
     this.userService.update(this.settingsForm.value)
+    .pipe(
+      finalize(() => this.isSubmitting = false)
+    )
     .subscribe(updatedUser => {
       this.router.navigateByUrl(`/profile/${updatedUser.username}`);
     }, err => {
       this.errors = err;
-      this.isSubmitting = false;
     });
   }
 

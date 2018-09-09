@@ -3,6 +3,7 @@ import { UserService } from './../../core/services/user.service';
 import { Router } from '@angular/router';
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ProfileService } from '../../core/services/profile.service';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-follow-button',
@@ -30,20 +31,20 @@ export class FollowButtonComponent {
       }
 
       if (!this.profile.following) {
-        this.profileService.follow(this.profile.username as string).subscribe(
-          () => {
-            this.isSubmitting = false;
-            this.toggle.emit(true);
-          },
-          err => this.isSubmitting = false
+        this.profileService.follow(this.profile.username as string)
+        .pipe(
+          finalize(() => this.isSubmitting = false)
+        )
+        .subscribe(
+          () => this.toggle.emit(true)
         );
       } else {
-        this.profileService.unfollow(this.profile.username as string).subscribe(
-          () => {
-            this.isSubmitting = false;
-            this.toggle.emit(false);
-          },
-          err => this.isSubmitting = false
+        this.profileService.unfollow(this.profile.username as string)
+        .pipe(
+          finalize(() => this.isSubmitting = false)
+        )
+        .subscribe(
+          () => this.toggle.emit(false)
         );
       }
     });
