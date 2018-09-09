@@ -3,15 +3,14 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
-import {
-  SharedModule
-} from './shared/shared.module';
+import { SharedModule } from './shared/shared.module';
 import { CoreModule } from './core/core.module';
 import { HomeModule } from './home/home.module';
 import { RouterModule } from '@angular/router';
 import { AuthModule } from './auth/auth.module';
 import { SettingsModule } from './settings/settings.module';
 import { ProfileModule } from './profile/profile.module';
+import { EditorModule } from './editor/editor.module';
 
 const rootRouting: ModuleWithProviders = RouterModule.forRoot([], {
   enableTracing: !environment.production
@@ -30,6 +29,7 @@ const rootRouting: ModuleWithProviders = RouterModule.forRoot([], {
     AuthModule,
     SettingsModule,
     ProfileModule,
+    EditorModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
