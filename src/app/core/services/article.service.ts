@@ -32,4 +32,20 @@ export class ArticleService {
       map(data => data.article)
     );
   }
+
+  destroy(slug: string): Observable<null> {
+    return this.http.delete<null>(`/articles/${slug}`);
+  }
+
+  favorite(slug: string): Observable<Article> {
+    return this.http.post<ArticleResponse>(`/articles/${slug}/favorite`, null).pipe(
+      map(data => data.article)
+    );
+  }
+
+  unfavorite(slug: string): Observable<Article> {
+    return this.http.delete<ArticleResponse>(`/articles/${slug}/favorite`).pipe(
+      map(data => data.article)
+    );
+  }
 }

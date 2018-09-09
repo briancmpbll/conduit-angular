@@ -4,6 +4,8 @@ import { SharedModule } from '../shared/shared.module';
 import { NgModule } from '@angular/core';
 import { EditableArticleResolverGuard } from './editable-article-resolver.guard';
 import { ArticleEditorComponent } from './article-editor/article-editor.component';
+import { ArticleComponent } from './article/article.component';
+import { ArticleResolverGuard } from './article-resolver.guard';
 
 const editorRouting = RouterModule.forChild([
   {
@@ -18,6 +20,13 @@ const editorRouting = RouterModule.forChild([
     resolve: {
       article: EditableArticleResolverGuard
     }
+  },
+  {
+    path: 'article/:slug',
+    component: ArticleComponent,
+    resolve: {
+      article: ArticleResolverGuard
+    }
   }
 ]);
 
@@ -26,7 +35,7 @@ const editorRouting = RouterModule.forChild([
     editorRouting,
     SharedModule
   ],
-  declarations: [ArticleEditorComponent],
-  providers: [EditableArticleResolverGuard]
+  declarations: [ArticleEditorComponent, ArticleComponent],
+  providers: [EditableArticleResolverGuard, ArticleResolverGuard]
 })
 export class ArticleModule { }
