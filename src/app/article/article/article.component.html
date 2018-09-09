@@ -4,35 +4,7 @@
     <div class="container">
       <h1>{{article.title}}</h1>
 
-      <app-article-meta [article]="article">
-        <ng-container *ngIf="canModify">
-          <a class="btn btn-sm btn-outline-secondary"
-            [routerLink]="['/editor', article.slug]"
-          >
-            <i class="ion-edit"></i> Edit Article
-          </a>
-
-          <button class="btn btn-sm btn-outline-danger"
-            [ngClass]="{disabled: isDeleting}"
-            (click)="deleteArticle()"
-          >
-            <i class="ion-trash-a"></i> Delete Article
-          </button>
-        </ng-container>
-
-        <ng-container *ngIf="!canModify">
-          <app-follow-button
-            [profile]="article.author"
-            (toggle)="onToggleFollowing($event)"
-          ></app-follow-button>
-
-          <app-favorite-button
-            [article]="article"
-            (toggle)="onToggleFavorite($event)"
-          ></app-favorite-button>
-        </ng-container>
-      </app-article-meta>
-
+      <ng-container [ngTemplateOutlet]="articleMetaTemplate"></ng-container>
     </div>
   </div>
 
@@ -56,7 +28,9 @@
 
     <hr>
 
-    <div class="article-actions"></div>
+    <div class="article-actions">
+      <ng-container [ngTemplateOutlet]="articleMetaTemplate"></ng-container>
+    </div>
 
     <div class="row">
       <div class="col-xs-12 col-md-8 offset-md-2">
@@ -71,3 +45,23 @@
   </div>
 
 </div>
+
+<ng-template #articleMetaTemplate>
+  <app-article-meta [article]="article">
+    <ng-container *ngIf="canModify">
+      <a class="btn btn-sm btn-outline-secondary" [routerLink]="['/editor', article.slug]">
+        <i class="ion-edit"></i> Edit Article
+      </a>
+
+      <button class="btn btn-sm btn-outline-danger" [ngClass]="{disabled: isDeleting}" (click)="deleteArticle()">
+        <i class="ion-trash-a"></i> Delete Article
+      </button>
+    </ng-container>
+
+    <ng-container *ngIf="!canModify">
+      <app-follow-button [profile]="article.author" (toggle)="onToggleFollowing($event)"></app-follow-button>
+
+      <app-favorite-button [article]="article" (toggle)="onToggleFavorite($event)"></app-favorite-button>
+    </ng-container>
+  </app-article-meta>
+</ng-template>
