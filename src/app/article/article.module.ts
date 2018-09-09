@@ -8,6 +8,7 @@ import { ArticleComponent } from './article/article.component';
 import { ArticleResolverGuard } from './article-resolver.guard';
 import { ArticleService } from './article.service';
 import { MarkdownPipe } from './markdown.pipe';
+import { ArticleMetaComponent } from './article-meta/article-meta.component';
 
 const editorRouting = RouterModule.forChild([
   {
@@ -40,7 +41,8 @@ const editorRouting = RouterModule.forChild([
   declarations: [
     ArticleEditorComponent,
     ArticleComponent,
-    MarkdownPipe
+    MarkdownPipe,
+    ArticleMetaComponent
   ],
   providers: [
     EditableArticleResolverGuard,
