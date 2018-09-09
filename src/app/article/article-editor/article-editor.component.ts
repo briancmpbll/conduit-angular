@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Article } from '../../core/models/article.model';
 import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
-import { ArticleService } from '../../core/services/article.service';
+import { ArticleService } from '../article.service';
 import { ActivatedRoute, Router, Data } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 

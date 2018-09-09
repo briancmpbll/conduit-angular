@@ -6,6 +6,8 @@ import { EditableArticleResolverGuard } from './editable-article-resolver.guard'
 import { ArticleEditorComponent } from './article-editor/article-editor.component';
 import { ArticleComponent } from './article/article.component';
 import { ArticleResolverGuard } from './article-resolver.guard';
+import { ArticleService } from './article.service';
+import { MarkdownPipe } from './markdown.pipe';
 
 const editorRouting = RouterModule.forChild([
   {
@@ -35,7 +37,15 @@ const editorRouting = RouterModule.forChild([
     editorRouting,
     SharedModule
   ],
-  declarations: [ArticleEditorComponent, ArticleComponent],
-  providers: [EditableArticleResolverGuard, ArticleResolverGuard]
+  declarations: [
+    ArticleEditorComponent,
+    ArticleComponent,
+    MarkdownPipe
+  ],
+  providers: [
+    EditableArticleResolverGuard,
+    ArticleResolverGuard,
+    ArticleService
+  ]
 })
 export class ArticleModule { }

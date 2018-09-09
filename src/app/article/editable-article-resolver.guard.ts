@@ -1,9 +1,9 @@
 import { UserService } from './../core/services/user.service';
 import { Article } from './../core/models/article.model';
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, RouterStateSnapshot, Resolve, Router } from '@angular/router';
+import { ActivatedRouteSnapshot, Resolve, Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { ArticleService } from '../core/services/article.service';
+import { ArticleService } from './article.service';
 import { map, catchError } from 'rxjs/operators';
 
 @Injectable({
