@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { ErrorsListComponent } from './errors-list/errors-list.component';
 import { IfAuthedDirective } from './if-authed/if-authed.directive';
+import { FavoriteButtonComponent } from './favorite-button/favorite-button.component';
 
 @NgModule({
   imports: [
@@ -18,7 +19,8 @@ import { IfAuthedDirective } from './if-authed/if-authed.directive';
   declarations: [
     ErrorsListComponent,
     IfAuthedDirective,
-    FollowButtonComponent
+    FollowButtonComponent,
+    FavoriteButtonComponent
   ],
   exports: [
     CommonModule,
@@ -28,7 +30,8 @@ import { IfAuthedDirective } from './if-authed/if-authed.directive';
     RouterModule,
     ErrorsListComponent,
     IfAuthedDirective,
-    FollowButtonComponent
+    FollowButtonComponent,
+    FavoriteButtonComponent
   ]
 })
 export class SharedModule {}

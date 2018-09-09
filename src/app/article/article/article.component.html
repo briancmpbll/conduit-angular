@@ -25,6 +25,11 @@
             [profile]="article.author"
             (toggle)="onToggleFollowing($event)"
           ></app-follow-button>
+
+          <app-favorite-button
+            [article]="article"
+            (toggle)="onToggleFavorite($event)"
+          ></app-favorite-button>
         </ng-container>
       </app-article-meta>
 
