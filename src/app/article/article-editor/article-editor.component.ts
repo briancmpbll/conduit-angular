@@ -6,11 +6,11 @@ import { ActivatedRoute, Router, Data } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-editor',
-  templateUrl: './editor.component.html',
-  styleUrls: ['./editor.component.css']
+  selector: 'app-article-editor',
+  templateUrl: './article-editor.component.html',
+  styleUrls: ['./article-editor.component.css']
 })
-export class EditorComponent implements OnInit {
+export class ArticleEditorComponent implements OnInit {
   article: Article = new Article;
   articleForm: FormGroup;
   tagField = new FormControl();
