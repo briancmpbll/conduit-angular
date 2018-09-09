@@ -26,12 +26,14 @@ export class ArticleComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.route.data.subscribe(data => this.article = data.article);
+    this.route.data.subscribe(data => {
+      this.article = data.article;
+      this.updateCanModify();
+    });
 
     this.userService.currentUser.subscribe((userData: User) => {
       this.currentUser = userData;
-
-      this.canModify = this.currentUser.username === this.article.author.username;
+      this.updateCanModify();
     });
   }
 
@@ -57,6 +59,10 @@ export class ArticleComponent implements OnInit {
       finalize(() => this.isDeleting = false)
     )
     .subscribe(success => this.router.navigateByUrl('/'));
+  }
+
+  private updateCanModify() {
+    this.canModify = this.currentUser.username === this.article.author.username;
   }
 
 }

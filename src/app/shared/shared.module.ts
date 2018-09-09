@@ -1,3 +1,4 @@
+import { FollowButtonComponent } from './follow-button/follow-button.component';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
@@ -14,7 +15,11 @@ import { IfAuthedDirective } from './if-authed/if-authed.directive';
     HttpClientModule,
     RouterModule
   ],
-  declarations: [ErrorsListComponent, IfAuthedDirective],
+  declarations: [
+    ErrorsListComponent,
+    IfAuthedDirective,
+    FollowButtonComponent
+  ],
   exports: [
     CommonModule,
     FormsModule,
@@ -23,6 +28,7 @@ import { IfAuthedDirective } from './if-authed/if-authed.directive';
     RouterModule,
     ErrorsListComponent,
     IfAuthedDirective,
+    FollowButtonComponent
   ]
 })
 export class SharedModule {}

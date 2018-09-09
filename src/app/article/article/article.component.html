@@ -4,7 +4,29 @@
     <div class="container">
       <h1>{{article.title}}</h1>
 
-      <app-article-meta [article]="article"></app-article-meta>
+      <app-article-meta [article]="article">
+        <ng-container *ngIf="canModify">
+          <a class="btn btn-sm btn-outline-secondary"
+            [routerLink]="['/editor', article.slug]"
+          >
+            <i class="ion-edit"></i> Edit Article
+          </a>
+
+          <button class="btn btn-sm btn-outline-danger"
+            [ngClass]="{disabled: isDeleting}"
+            (click)="deleteArticle()"
+          >
+            <i class="ion-trash-a"></i> Delete Article
+          </button>
+        </ng-container>
+
+        <ng-container *ngIf="!canModify">
+          <app-follow-button
+            [profile]="article.author"
+            (toggle)="onToggleFollowing($event)"
+          ></app-follow-button>
+        </ng-container>
+      </app-article-meta>
 
     </div>
   </div>
