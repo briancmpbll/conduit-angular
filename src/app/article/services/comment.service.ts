@@ -12,7 +12,7 @@ export class CommentService {
   constructor(private http: HttpClient) { }
 
   add(slug: string, payload: string): Observable<Comment> {
-    return this.http.post<{ comment: Comment }>(`articles/${slug}/comments`, {
+    return this.http.post<{ comment: Comment }>(`/articles/${slug}/comments`, {
       comment: {
         body: payload
       }
@@ -28,6 +28,6 @@ export class CommentService {
   }
 
   destroy(commentId: number, articleSlug: string): Observable<null> {
-    return this.http.delete<null>(`/articles${articleSlug}/comments/${commentId}`);
+    return this.http.delete<null>(`/articles/${articleSlug}/comments/${commentId}`);
   }
 }

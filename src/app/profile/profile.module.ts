@@ -1,9 +1,8 @@
 import { RouterModule } from '@angular/router';
 import { ProfileResolverGuard } from './profile-resolver.guard';
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { ProfileComponent } from './profile/profile.component';
-import { FollowButtonComponent } from './follow-button/follow-button.component';
+import { SharedModule } from '../shared/shared.module';
 
 const profileRouting = RouterModule.forChild([
   {
@@ -17,10 +16,10 @@ const profileRouting = RouterModule.forChild([
 
 @NgModule({
   imports: [
-    CommonModule,
+    SharedModule,
     profileRouting
   ],
-  declarations: [ProfileComponent, FollowButtonComponent],
+  declarations: [ProfileComponent],
   providers: [
     ProfileResolverGuard
   ]
