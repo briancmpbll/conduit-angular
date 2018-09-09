@@ -1,3 +1,4 @@
+import { ArticleService } from './services/article.service';
 import { ProfileService } from './services/profile.service';
 import { NoAuthGuard } from './guards/no-auth.guard';
 import { NgModule } from '@angular/core';
@@ -19,6 +20,7 @@ import { AuthGuard } from './guards/auth.guard';
   providers: [
     UserService,
     ProfileService,
+    ArticleService,
     JwtService,
     NoAuthGuard,
     AuthGuard,
