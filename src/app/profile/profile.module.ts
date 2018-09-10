@@ -3,6 +3,7 @@ import { ProfileResolverGuard } from './profile-resolver.guard';
 import { NgModule } from '@angular/core';
 import { ProfileComponent } from './profile/profile.component';
 import { SharedModule } from '../shared/shared.module';
+import { ProfileArticlesComponent } from './profile-articles/profile-articles.component';
 
 const profileRouting = RouterModule.forChild([
   {
@@ -19,7 +20,7 @@ const profileRouting = RouterModule.forChild([
     SharedModule,
     profileRouting
   ],
-  declarations: [ProfileComponent],
+  declarations: [ProfileComponent, ProfileArticlesComponent],
   providers: [
     ProfileResolverGuard
   ]
