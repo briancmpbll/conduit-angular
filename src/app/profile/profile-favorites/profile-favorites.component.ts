@@ -1,16 +1,16 @@
 import { ArticleListConfig } from './../../core/models/article-list-config.model';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { Profile } from '../../core/models/profile.model';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-profile-articles',
-  templateUrl: './profile-articles.component.html',
-  styleUrls: ['./profile-articles.component.css']
+  selector: 'app-profile-favorites',
+  templateUrl: './profile-favorites.component.html',
+  styleUrls: ['./profile-favorites.component.css']
 })
-export class ProfileArticlesComponent implements OnInit {
+export class ProfileFavoritesComponent implements OnInit {
   profile: Profile = new Profile;
-  articlesConfig: ArticleListConfig = new ArticleListConfig;
+  favoritesConfig: ArticleListConfig = new ArticleListConfig;
 
   constructor(
     private route: ActivatedRoute
@@ -20,7 +20,7 @@ export class ProfileArticlesComponent implements OnInit {
     if (this.route.parent) {
       this.route.parent.data.subscribe(data => {
         this.profile = data.profile;
-        this.articlesConfig.filters.author = this.profile.username;
+        this.favoritesConfig.filters.favorited = this.profile.username;
       });
     }
   }

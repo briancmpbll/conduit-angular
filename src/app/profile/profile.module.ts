@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { ProfileComponent } from './profile/profile.component';
 import { SharedModule } from '../shared/shared.module';
 import { ProfileArticlesComponent } from './profile-articles/profile-articles.component';
+import { ProfileFavoritesComponent } from './profile-favorites/profile-favorites.component';
 
 const profileRouting = RouterModule.forChild([
   {
@@ -20,7 +21,7 @@ const profileRouting = RouterModule.forChild([
     SharedModule,
     profileRouting
   ],
-  declarations: [ProfileComponent, ProfileArticlesComponent],
+  declarations: [ProfileComponent, ProfileArticlesComponent, ProfileFavoritesComponent],
   providers: [
     ProfileResolverGuard
   ]
