@@ -46,6 +46,23 @@
     <div class="col-md-3">
       <div class="sidebar">
         <p>Popular Tags</p>
+
+        <div class="tag-list">
+          <a href="#" class="tag-default tag-pill"
+            *ngFor="let tag of tags"
+            (click)="setListTo('all', {tag: tag})"
+          >
+            {{tag}}
+          </a>
+
+          <div *ngIf="!tagsLoaded">
+            Loading tags...
+          </div>
+
+          <div *ngIf="tagsLoaded && tags.length === 0">
+            No tags are here... yet.
+          </div>
+        </div>
       </div>
     </div>
   </div>
