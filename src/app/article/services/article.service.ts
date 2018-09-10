@@ -26,7 +26,7 @@ export class ArticleService {
 
     for (const key in config.filters) {
       if (config.filters.hasOwnProperty(key)) {
-        params.set(key, config.filters[key as (keyof ArticleListFilters)] as string);
+        params.set(key, String(config.filters[key as keyof ArticleListFilters]));
       }
     }
 

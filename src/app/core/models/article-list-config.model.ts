@@ -2,8 +2,8 @@ export interface ArticleListFilters {
     tag?: string;
     author?: string;
     favorited?: string;
-    limit?: string;
-    offset?: string;
+    limit?: number;
+    offset?: number;
 }
 
 export class ArticleListConfig {
