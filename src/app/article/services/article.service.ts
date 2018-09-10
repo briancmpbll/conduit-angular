@@ -30,7 +30,7 @@ export class ArticleService {
       }
     }
 
-    return this.http.get<ArticleQueryResponse>(`/articles${config.type === 'feed' ? 'feed' : ''}`, {
+    return this.http.get<ArticleQueryResponse>(`/articles/${config.type === 'feed' ? 'feed' : ''}`, {
       params
     });
   }
