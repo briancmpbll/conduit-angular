@@ -1,11 +1,17 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Article } from '../../core/models/article.model';
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
+import { ArticleListConfig, ArticleListFilters } from '../../core/models/article-list-config.model';
 
 interface ArticleResponse {
   article: Article;
+}
+
+interface ArticleQueryResponse {
+  articles: Article[];
+  articlesCount: number;
 }
 
 @Injectable({
@@ -14,6 +20,20 @@ interface ArticleResponse {
 export class ArticleService {
 
   constructor(private http: HttpClient) { }
+
+  query(config: ArticleListConfig): Observable<ArticleQueryResponse> {
+    const params: HttpParams = new HttpParams;
+
+    for (const key in config.filters) {
+      if (config.filters.hasOwnProperty(key)) {
+        params.set(key, config.filters[key as (keyof ArticleListFilters)] as string);
+      }
+    }
+
+    return this.http.get<ArticleQueryResponse>(`/articles${config.type === 'feed' ? 'feed' : ''}`, {
+      params
+    });
+  }
 
   get(slug: string): Observable<Article> {
     return this.http.get<ArticleResponse>(`/articles/${slug}`).pipe(
