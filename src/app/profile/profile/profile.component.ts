@@ -10,8 +10,8 @@ import { UserService } from '../../core/services/user.service';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-  profile?: Profile;
-  currentUser?: User;
+  profile: Profile = new Profile;
+  currentUser: User = new User;
   isUser = false;
 
   constructor(

@@ -22,11 +22,11 @@ export class ArticleService {
   constructor(private http: HttpClient) { }
 
   query(config: ArticleListConfig): Observable<ArticleQueryResponse> {
-    const params: HttpParams = new HttpParams;
+    let params: HttpParams = new HttpParams;
 
     for (const key in config.filters) {
       if (config.filters.hasOwnProperty(key)) {
-        params.set(key, String(config.filters[key as keyof ArticleListFilters]));
+        params = params.set(key, String(config.filters[key as keyof ArticleListFilters]));
       }
     }
 

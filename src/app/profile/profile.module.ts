@@ -12,7 +12,17 @@ const profileRouting = RouterModule.forChild([
     component: ProfileComponent,
     resolve: {
       profile: ProfileResolverGuard
-    }
+    },
+    children: [
+      {
+        path: '',
+        component: ProfileArticlesComponent
+      },
+      {
+        path: 'favorites',
+        component: ProfileFavoritesComponent
+      }
+    ]
   }
 ]);
 
