@@ -8,6 +8,7 @@ import { ErrorsListComponent } from './errors-list/errors-list.component';
 import { IfAuthedDirective } from './if-authed/if-authed.directive';
 import { FavoriteButtonComponent } from './favorite-button/favorite-button.component';
 import { ArticleMetaComponent } from './article-meta/article-meta.component';
+import { ArticlePreviewComponent } from './article-preview/article-preview.component';
 
 @NgModule({
   imports: [
@@ -22,7 +23,8 @@ import { ArticleMetaComponent } from './article-meta/article-meta.component';
     IfAuthedDirective,
     FollowButtonComponent,
     FavoriteButtonComponent,
-    ArticleMetaComponent
+    ArticleMetaComponent,
+    ArticlePreviewComponent
   ],
   exports: [
     CommonModule,
@@ -34,7 +36,8 @@ import { ArticleMetaComponent } from './article-meta/article-meta.component';
     IfAuthedDirective,
     FollowButtonComponent,
     FavoriteButtonComponent,
-    ArticleMetaComponent
+    ArticleMetaComponent,
+    ArticlePreviewComponent
   ]
 })
 export class SharedModule {}
