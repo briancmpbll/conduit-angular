@@ -2,7 +2,7 @@ import { ArticleListFilters } from './../../core/models/article-list-config.mode
 import { UserService } from './../../core/services/user.service';
 import { Component, OnInit } from '@angular/core';
 import { TagService } from '../../core/services/tag.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { ArticleListConfig } from '../../core/models/article-list-config.model';
 
 @Component({
@@ -18,15 +18,16 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private route: ActivatedRoute,
     private tagService: TagService,
     private userService: UserService
   ) { }
 
   ngOnInit() {
-    this.userService.isAuthenticated.subscribe(authenticated => {
-      this.isAuthenticated = authenticated;
+    this.route.data.subscribe(data => {
+      this.isAuthenticated = data.isAuthenticated;
 
-      if (authenticated) {
+      if (this.isAuthenticated) {
         this.setListTo('feed');
       } else {
         this.setListTo('all');

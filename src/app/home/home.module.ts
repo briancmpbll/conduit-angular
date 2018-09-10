@@ -1,3 +1,4 @@
+import { HomeAuthResolverGuard } from './home-auth-resolver.guard';
 import { NgModule } from '@angular/core';
 import { HomeComponent } from './home/home.component';
 import { ModuleWithProviders } from '@angular/compiler/src/core';
@@ -8,8 +9,11 @@ import { CoreModule } from '../core/core.module';
 const homeRouting: ModuleWithProviders = RouterModule.forChild([
   {
     path: '',
-    component: HomeComponent
-  }
+    component: HomeComponent,
+    resolve: {
+      isAuthenticated: HomeAuthResolverGuard
+    }
+  },
 ]);
 
 @NgModule({
@@ -18,5 +22,6 @@ const homeRouting: ModuleWithProviders = RouterModule.forChild([
     SharedModule
   ],
   declarations: [HomeComponent],
+  providers: [HomeAuthResolverGuard]
 })
 export class HomeModule { }
