@@ -10,7 +10,9 @@ export enum AppActionTypes {
   Login = '[App] Login',
   LoginSuccess = '[App] Login Success',
   LoginError = '[App] Login Error',
-  ExistingUserSuccess = '[App] Existing User Success'
+  ExistingUserSuccess = '[App] Existing User Success',
+  Logout = '[App] Logout',
+  LogoutSuccess = '[App] Logout Success'
 }
 
 export class LoadApp implements Action {
@@ -47,8 +49,17 @@ export class ExistingUserSuccessAction implements Action {
   constructor(public payload: User) {}
 }
 
+export class LogoutAction implements Action {
+  readonly type = AppActionTypes.Logout;
+}
+
+export class LogoutSuccessAction implements Action {
+  readonly type = AppActionTypes.LogoutSuccess;
+}
+
 export type AppAction = LoadApp | AppLoaded | AppLoadError |
-  LoginAction | LoginSuccessAction | LoginErrorAction | ExistingUserSuccessAction;
+  LoginAction | LoginSuccessAction | LoginErrorAction | ExistingUserSuccessAction |
+  LogoutAction | LogoutSuccessAction;
 
 export const fromAppActions = {
   LoadApp,

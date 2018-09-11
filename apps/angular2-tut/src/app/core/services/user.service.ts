@@ -33,8 +33,4 @@ export class UserService {
       return data.user;
     }));
   }
-
-  purgeAuth() {
-    this.jwtService.destroyToken();
-  }
 }

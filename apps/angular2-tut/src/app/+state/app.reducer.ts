@@ -77,6 +77,15 @@ export function appReducer(
       };
       break;
     }
+
+    case AppActionTypes.LogoutSuccess: {
+      state = {
+        ...state,
+        currentUser: new User,
+        isAuthenticated: false
+      };
+      break;
+    }
   }
 
   return state;

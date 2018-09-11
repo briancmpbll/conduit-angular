@@ -1,13 +1,14 @@
-import { appQuery } from './../../+state/app.selectors';
-import { UserService } from './../../core/services/user.service';
-import { FormGroup, FormBuilder } from '@angular/forms';
-import { User } from './../../core/models/user.model';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
-import { Store } from '@ngrx/store';
 import { AppState } from '../../+state/app.reducer';
+import { LogoutAction } from './../../+state/app.actions';
+import { appQuery } from './../../+state/app.selectors';
+import { User } from './../../core/models/user.model';
+import { UserService } from './../../core/services/user.service';
 
 @Component({
   selector: 'app-settings',
@@ -51,8 +52,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
   }
 
   logout() {
-    this.userService.purgeAuth();
-    this.router.navigateByUrl('/');
+    this.store.dispatch(new LogoutAction);
   }
 
   submitForm() {

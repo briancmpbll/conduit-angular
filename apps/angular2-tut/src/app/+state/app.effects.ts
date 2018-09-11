@@ -13,6 +13,8 @@ import {
   LoginSuccessAction,
   LoginErrorAction,
   ExistingUserSuccessAction,
+  LogoutAction,
+  LogoutSuccessAction,
 } from './app.actions';
 import { map, mergeMap, catchError, tap } from 'rxjs/operators';
 import { UserService } from '../core/services/user.service';
@@ -35,8 +37,7 @@ export class AppEffects {
   });
 
   @Effect()
-  appLoaded$ = this.actions$.pipe(
-    ofType<AppLoaded>(AppActionTypes.AppLoaded),
+  appLoaded$ = this.actions$.ofType<AppLoaded>(AppActionTypes.AppLoaded).pipe(
     mergeMap(() => {
       return this.userService.getLoggedInUser().pipe(
         map(user => new ExistingUserSuccessAction(user)),
@@ -46,8 +47,7 @@ export class AppEffects {
   );
 
   @Effect()
-  login$ = this.actions$.pipe(
-    ofType<LoginAction>(AppActionTypes.Login),
+  login$ = this.actions$.ofType<LoginAction>(AppActionTypes.Login).pipe(
     mergeMap(loginAction => {
       return this.userService.attemptAuth('login', loginAction.payload).pipe(
         map(user => new LoginSuccessAction(user)),
@@ -57,12 +57,22 @@ export class AppEffects {
   );
 
   @Effect({dispatch: false})
-  loginSuccess$ = this.actions$.pipe(
-    ofType<LoginSuccessAction>(AppActionTypes.LoginSuccess),
+  loginSuccess$ = this.actions$.ofType<LoginSuccessAction>(AppActionTypes.LoginSuccess).pipe(
     tap(loginSuccessAction => {
       this.jwtService.saveToken(loginSuccessAction.payload.token as string);
       this.router.navigateByUrl('/');
     })
+  );
+
+  @Effect()
+  logout$ = this.actions$.ofType<LogoutAction>(AppActionTypes.Logout).pipe(
+    tap(() => this.jwtService.destroyToken()),
+    map(() => new LogoutSuccessAction)
+  );
+
+  @Effect({dispatch: false})
+  logoutSuccess$ = this.actions$.ofType<LogoutSuccessAction>(AppActionTypes.LogoutSuccess).pipe(
+    tap(() => this.router.navigateByUrl('/'))
   );
 
   constructor(
