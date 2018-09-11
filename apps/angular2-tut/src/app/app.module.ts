@@ -1,5 +1,4 @@
-import { environment } from './../environments/environment';
-import { NgModule, ModuleWithProviders } from '@angular/core';
+import { NgModule, ModuleWithProviders, InjectionToken } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
@@ -12,6 +11,14 @@ import { SettingsModule } from './settings/settings.module';
 import { ProfileModule } from './profile/profile.module';
 import { ArticleModule } from './article/article.module';
 import { NxModule } from '@nrwl/nx';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { initialState as appInitialState, appReducer } from './+state/app.reducer';
+import { AppEffects } from './+state/app.effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { storeFreeze } from 'ngrx-store-freeze';
 
 const rootRouting: ModuleWithProviders = RouterModule.forRoot([], {
   enableTracing: !environment.production
@@ -32,6 +39,15 @@ const rootRouting: ModuleWithProviders = RouterModule.forRoot([], {
     ProfileModule,
     ArticleModule,
     NxModule.forRoot(),
+    StoreModule.forRoot({ app: appReducer },
+      {
+        initialState : { app : appInitialState },
+        metaReducers : !environment.production ? [storeFreeze] : []
+      }
+    ),
+    EffectsModule.forRoot([AppEffects]),
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
+    StoreRouterConnectingModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
