@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { finalize } from 'rxjs/operators';
+import { finalize, first } from 'rxjs/operators';
 import { AppState } from '../../+state/app.reducer';
 import { ArticleService } from '../../article/services/article.service';
 import { appQuery } from './../../+state/app.selectors';
@@ -26,7 +26,8 @@ export class FavoriteButtonComponent {
   toggleFavorite() {
     this.isSubmitting = true;
 
-    const subscription = this.store.select(appQuery.getIsAuthenticated).subscribe((authenticated) => {
+    this.store.select(appQuery.getIsAuthenticated).pipe(first())
+    .subscribe((authenticated) => {
       if (!authenticated) {
         this.router.navigateByUrl('/login');
         return;
@@ -53,8 +54,6 @@ export class FavoriteButtonComponent {
           }
         );
       }
-
-      subscription.unsubscribe();
     });
   }
 

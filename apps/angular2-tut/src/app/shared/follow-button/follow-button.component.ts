@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { finalize } from 'rxjs/operators';
+import { finalize, first } from 'rxjs/operators';
 import { ProfileService } from '../../core/services/profile.service';
 import { AppState } from './../../+state/app.reducer';
 import { appQuery } from './../../+state/app.selectors';
@@ -26,7 +26,8 @@ export class FollowButtonComponent {
   toggleFollowing() {
     this.isSubmitting = true;
 
-    const subscription = this.store.select(appQuery.getIsAuthenticated).subscribe(authenticated => {
+    this.store.select(appQuery.getIsAuthenticated).pipe(first())
+    .subscribe(authenticated => {
       if (!authenticated) {
         this.router.navigateByUrl('/login');
         return;
@@ -49,8 +50,6 @@ export class FollowButtonComponent {
           () => this.toggle.emit(false)
         );
       }
-
-      subscription.unsubscribe();
     });
   }
 }

@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
 import { Observable } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { first } from 'rxjs/operators';
 import { AppState } from '../../+state/app.reducer';
 
 @Injectable({
@@ -15,6 +15,6 @@ export class AuthGuard implements CanActivate {
   ) {}
 
   canActivate(): Observable<boolean> {
-    return this.store.select(appQuery.getIsAuthenticated).pipe(take(1));
+    return this.store.select(appQuery.getIsAuthenticated).pipe(first());
   }
 }

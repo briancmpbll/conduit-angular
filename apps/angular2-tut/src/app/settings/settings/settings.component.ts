@@ -1,3 +1,4 @@
+import { appQuery } from './../../+state/app.selectors';
 import { UserService } from './../../core/services/user.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { User } from './../../core/models/user.model';
@@ -5,6 +6,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../+state/app.reducer';
 
 @Component({
   selector: 'app-settings',
@@ -22,6 +25,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private userService: UserService,
+    private store: Store<AppState>,
     private fb: FormBuilder
   ) {
     this.settingsForm = this.fb.group({
@@ -34,7 +38,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.userSubscription = this.userService.currentUser.subscribe(newUser => {
+    this.userSubscription = this.store.select(appQuery.getCurrentUser).subscribe(newUser => {
       this.user = newUser;
       this.settingsForm.patchValue(this.user);
     });

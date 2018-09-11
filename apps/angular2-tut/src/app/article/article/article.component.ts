@@ -1,20 +1,23 @@
-import { ArticleService } from '../services/article.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Article } from './../../core/models/article.model';
-import { Component, OnInit } from '@angular/core';
-import { User } from '../../core/models/user.model';
-import { UserService } from '../../core/services/user.service';
-import { finalize } from 'rxjs/operators';
-import { Comment } from '../../core/models/comment.model';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { finalize } from 'rxjs/operators';
+import { AppState } from '../../+state/app.reducer';
+import { Comment } from '../../core/models/comment.model';
+import { User } from '../../core/models/user.model';
+import { ArticleService } from '../services/article.service';
 import { CommentService } from '../services/comment.service';
+import { appQuery } from './../../+state/app.selectors';
+import { Article } from './../../core/models/article.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-article',
   templateUrl: './article.component.html',
   styleUrls: ['./article.component.css']
 })
-export class ArticleComponent implements OnInit {
+export class ArticleComponent implements OnInit, OnDestroy {
   article: Article = new Article;
   currentUser: User = new User;
   canModify = false;
@@ -24,12 +27,14 @@ export class ArticleComponent implements OnInit {
   isSubmitting = false;
   isDeleting = false;
 
+  private userSubscription?: Subscription;
+
   constructor(
     private route: ActivatedRoute,
     private articleService: ArticleService,
     private commentService: CommentService,
     private router: Router,
-    private userService: UserService
+    private store: Store<AppState>
   ) { }
 
   ngOnInit() {
@@ -39,10 +44,16 @@ export class ArticleComponent implements OnInit {
       this.populateComments();
     });
 
-    this.userService.currentUser.subscribe((userData: User) => {
+    this.userSubscription = this.store.select(appQuery.getCurrentUser).subscribe((userData: User) => {
       this.currentUser = userData;
       this.updateCanModify();
     });
+  }
+
+  ngOnDestroy() {
+    if (this.userSubscription) {
+      this.userSubscription.unsubscribe();
+    }
   }
 
   onToggleFavorite(favorited: boolean) {

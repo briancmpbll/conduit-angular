@@ -12,6 +12,7 @@ import {
   LoginAction,
   LoginSuccessAction,
   LoginErrorAction,
+  ExistingUserSuccessAction,
 } from './app.actions';
 import { map, mergeMap, catchError, tap } from 'rxjs/operators';
 import { UserService } from '../core/services/user.service';
@@ -32,6 +33,17 @@ export class AppEffects {
       return new AppLoadError(error);
     }
   });
+
+  @Effect()
+  appLoaded$ = this.actions$.pipe(
+    ofType<AppLoaded>(AppActionTypes.AppLoaded),
+    mergeMap(() => {
+      return this.userService.getLoggedInUser().pipe(
+        map(user => new ExistingUserSuccessAction(user)),
+        catchError(() => of({type: 'NO_ACTION'}))
+      );
+    })
+  );
 
   @Effect()
   login$ = this.actions$.pipe(

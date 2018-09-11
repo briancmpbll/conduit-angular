@@ -58,6 +58,7 @@ export function appReducer(
       break;
     }
 
+    case AppActionTypes.ExistingUserSuccess:
     case AppActionTypes.LoginSuccess: {
       state = {
         ...state,

@@ -1,5 +1,7 @@
+import { LoadApp } from './+state/app.actions';
 import { Component, OnInit } from '@angular/core';
-import { UserService } from './core/services/user.service';
+import { AppState } from './+state/app.reducer';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-root',
@@ -7,10 +9,10 @@ import { UserService } from './core/services/user.service';
 })
 export class AppComponent implements OnInit {
   constructor (
-    private userService: UserService
+    private store: Store<AppState>
   ) {}
 
   ngOnInit() {
-    this.userService.populate();
+    this.store.dispatch(new LoadApp);
   }
 }

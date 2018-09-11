@@ -46,7 +46,7 @@
           </a>
         </li>
 
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="user$ | async as currentUser">
           <a class="nav-link"
             [routerLink]="['/profile', currentUser.username]"
             routerLinkActive="active"

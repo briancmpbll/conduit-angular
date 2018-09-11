@@ -1,6 +1,9 @@
+import { appQuery } from './../../+state/app.selectors';
+import { Store } from '@ngrx/store';
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../services/user.service';
 import { User } from '../models/user.model';
+import { AppState } from '../../+state/app.reducer';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -8,16 +11,14 @@ import { User } from '../models/user.model';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  currentUser: User = new User;
+  user$?: Observable<User>;
 
   constructor(
-    private userService: UserService
+    private store: Store<AppState>
   ) { }
 
   ngOnInit() {
-    this.userService.currentUser.subscribe((userData) => {
-      this.currentUser = userData;
-    });
+    this.user$ = this.store.select(appQuery.getCurrentUser);
   }
 
 }

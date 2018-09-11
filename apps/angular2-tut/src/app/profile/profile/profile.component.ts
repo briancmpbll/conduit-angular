@@ -1,8 +1,10 @@
-import { User } from './../../core/models/user.model';
-import { Profile } from './../../core/models/profile.model';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { UserService } from '../../core/services/user.service';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../+state/app.reducer';
+import { appQuery } from './../../+state/app.selectors';
+import { Profile } from './../../core/models/profile.model';
+import { User } from './../../core/models/user.model';
 
 @Component({
   selector: 'app-profile',
@@ -16,7 +18,7 @@ export class ProfileComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private userService: UserService
+    private store: Store<AppState>
   ) { }
 
   ngOnInit() {
@@ -25,7 +27,7 @@ export class ProfileComponent implements OnInit {
       this.checkIsUser();
     });
 
-    this.userService.currentUser.subscribe(userData => {
+    this.store.select(appQuery.getCurrentUser).subscribe(userData => {
       this.currentUser = userData;
       this.checkIsUser();
     });
