@@ -17,7 +17,7 @@ import { initialState as appInitialState, appReducer } from './+state/app.reduce
 import { AppEffects } from './+state/app.effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
-import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { StoreRouterConnectingModule, routerReducer } from '@ngrx/router-store';
 import { storeFreeze } from 'ngrx-store-freeze';
 
 const rootRouting: ModuleWithProviders = RouterModule.forRoot([], {
@@ -39,7 +39,11 @@ const rootRouting: ModuleWithProviders = RouterModule.forRoot([], {
     ProfileModule,
     ArticleModule,
     NxModule.forRoot(),
-    StoreModule.forRoot({ app: appReducer },
+    StoreModule.forRoot(
+      {
+        app: appReducer,
+        router: routerReducer
+      },
       {
         initialState : { app : appInitialState },
         metaReducers : !environment.production ? [storeFreeze] : []
@@ -47,7 +51,7 @@ const rootRouting: ModuleWithProviders = RouterModule.forRoot([], {
     ),
     EffectsModule.forRoot([AppEffects]),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
-    StoreRouterConnectingModule,
+    StoreRouterConnectingModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,31 +1,28 @@
-import { appQuery } from './../../+state/app.selectors';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { LoginAction } from '../../+state/app.actions';
+import { AppState } from '../../+state/app.reducer';
 import { Errors } from '../../core/models/errors.model';
 import { AuthCredentials } from '../../core/models/user.model';
-import { Store } from '@ngrx/store';
-import { AppState } from '../../+state/app.reducer';
-import { LoginAction } from '../../+state/app.actions';
-import { Subscription, Observable } from 'rxjs';
+import { appQuery } from './../../+state/app.selectors';
 
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.css']
 })
-export class AuthComponent implements OnInit, OnDestroy {
+export class AuthComponent implements OnInit {
   authType = '';
   title = '';
   authForm: FormGroup;
   errors$?: Observable<Errors | undefined>;
   loginSubmitting$?: Observable<boolean>;
 
-  private userSubscription?: Subscription;
-
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
     private formBuilder: FormBuilder,
     private store: Store<AppState>
   ) {
@@ -43,19 +40,8 @@ export class AuthComponent implements OnInit, OnDestroy {
       this.authForm.addControl('username', new FormControl('', Validators.required));
     }
 
-    this.userSubscription = this.store.select(appQuery.getCurrentUser).subscribe((user) => {
-      if (user.username) {
-        this.router.navigateByUrl('/');
-      }
-    });
     this.errors$ = this.store.select(appQuery.getLoginErrors);
     this.loginSubmitting$ = this.store.select(appQuery.getLoginSubmitting);
-  }
-
-  ngOnDestroy() {
-    if (this.userSubscription) {
-      this.userSubscription.unsubscribe();
-    }
   }
 
   submitForm() {

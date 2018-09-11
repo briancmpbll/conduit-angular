@@ -13,9 +13,10 @@ import {
   LoginSuccessAction,
   LoginErrorAction,
 } from './app.actions';
-import { map, mergeMap, catchError } from 'rxjs/operators';
+import { map, mergeMap, catchError, tap } from 'rxjs/operators';
 import { UserService } from '../core/services/user.service';
 import { of } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class AppEffects {
@@ -43,16 +44,20 @@ export class AppEffects {
     })
   );
 
-  @Effect()
+  @Effect({dispatch: false})
   loginSuccess$ = this.actions$.pipe(
     ofType<LoginSuccessAction>(AppActionTypes.LoginSuccess),
-    map(loginSuccessAction => this.jwtService.saveToken(loginSuccessAction.payload.token as string))
+    tap(loginSuccessAction => {
+      this.jwtService.saveToken(loginSuccessAction.payload.token as string);
+      this.router.navigateByUrl('/');
+    })
   );
 
   constructor(
     private actions$: Actions,
     private dataPersistence: DataPersistence<AppState>,
     private userService: UserService,
-    private jwtService: JwtService
+    private jwtService: JwtService,
+    private router: Router
   ) {}
 }
