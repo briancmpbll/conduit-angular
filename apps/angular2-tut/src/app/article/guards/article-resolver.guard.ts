@@ -25,9 +25,7 @@ export class ArticleResolverGuard implements CanActivate {
   ): Observable<boolean> {
     this.store.dispatch(new LoadArticleAction(route.params.slug));
 
-    return this.actions$.pipe(
-      filter(action => action.type === ArticleActionTypes.ArticleLoaded ||
-        action.type === ArticleActionTypes.ArticleLoadError),
+    return this.actions$.ofType(ArticleActionTypes.ArticleLoaded, ArticleActionTypes.ArticleLoadError).pipe(
       map(action => action.type === ArticleActionTypes.ArticleLoaded ? true : false)
     );
   }
