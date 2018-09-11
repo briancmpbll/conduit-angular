@@ -1,18 +1,22 @@
-import { Directive, OnInit, TemplateRef, ViewContainerRef, Input } from '@angular/core';
-import { UserService } from '../../core/services/user.service';
+import { Directive, Input, OnDestroy, OnInit, TemplateRef, ViewContainerRef } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Subscription } from 'rxjs';
+import { AppState } from '../../+state/app.reducer';
+import { appQuery } from './../../+state/app.selectors';
 
 @Directive({
   selector: '[appIfAuthed]'
 })
-export class IfAuthedDirective implements OnInit {
+export class IfAuthedDirective implements OnInit, OnDestroy {
   private condition?: boolean;
   private isAuthenticated?: boolean;
   private isVisible?: boolean;
+  private subscription?: Subscription;
 
   constructor(
     private templateRef: TemplateRef<any>,
-    private userService: UserService,
     private viewContainer: ViewContainerRef,
+    private store: Store<AppState>
   ) { }
 
   @Input() set appIfAuthed(condition: boolean) {
@@ -21,10 +25,16 @@ export class IfAuthedDirective implements OnInit {
   }
 
   ngOnInit() {
-    this.userService.isAuthenticated.subscribe(isAuthenticated => {
+    this.subscription = this.store.select(appQuery.getIsAuthenticated).subscribe(isAuthenticated => {
       this.isAuthenticated = isAuthenticated;
       this.updateVisibility();
     });
+  }
+
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   private updateVisibility() {

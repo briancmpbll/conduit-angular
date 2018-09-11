@@ -1,9 +1,11 @@
-import { Profile } from './../../core/models/profile.model';
-import { UserService } from './../../core/services/user.service';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { ProfileService } from '../../core/services/profile.service';
+import { Store } from '@ngrx/store';
 import { finalize } from 'rxjs/operators';
+import { ProfileService } from '../../core/services/profile.service';
+import { AppState } from './../../+state/app.reducer';
+import { appQuery } from './../../+state/app.selectors';
+import { Profile } from './../../core/models/profile.model';
 
 @Component({
   selector: 'app-follow-button',
@@ -18,13 +20,13 @@ export class FollowButtonComponent {
   constructor(
     private profileService: ProfileService,
     private router: Router,
-    private userService: UserService
+    private store: Store<AppState>
   ) { }
 
   toggleFollowing() {
     this.isSubmitting = true;
 
-    this.userService.isAuthenticated.subscribe(authenticated => {
+    const subscription = this.store.select(appQuery.getIsAuthenticated).subscribe(authenticated => {
       if (!authenticated) {
         this.router.navigateByUrl('/login');
         return;
@@ -47,6 +49,8 @@ export class FollowButtonComponent {
           () => this.toggle.emit(false)
         );
       }
+
+      subscription.unsubscribe();
     });
   }
 }

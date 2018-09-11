@@ -1,9 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { UserService } from '../../core/services/user.service';
+import { Store } from '@ngrx/store';
+import { finalize } from 'rxjs/operators';
+import { AppState } from '../../+state/app.reducer';
 import { ArticleService } from '../../article/services/article.service';
+import { appQuery } from './../../+state/app.selectors';
 import { Article } from './../../core/models/article.model';
-import { catchError, finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-favorite-button',
@@ -18,13 +20,13 @@ export class FavoriteButtonComponent {
   constructor(
     private articleService: ArticleService,
     private router: Router,
-    private userService: UserService
+    private store: Store<AppState>
   ) { }
 
   toggleFavorite() {
     this.isSubmitting = true;
 
-    this.userService.isAuthenticated.subscribe((authenticated) => {
+    const subscription = this.store.select(appQuery.getIsAuthenticated).subscribe((authenticated) => {
       if (!authenticated) {
         this.router.navigateByUrl('/login');
         return;
@@ -51,6 +53,8 @@ export class FavoriteButtonComponent {
           }
         );
       }
+
+      subscription.unsubscribe();
     });
   }
 

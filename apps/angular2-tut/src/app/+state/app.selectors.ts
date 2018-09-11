@@ -33,7 +33,7 @@ const getCurrentUser = createSelector(
 
 const getIsAuthenticated = createSelector(
   getAppState,
-  (state: AppState) => state.isAuthenticated
+  (state: AppState) => Boolean(state.isAuthenticated)
 );
 
 const getLoginErrors = createSelector(

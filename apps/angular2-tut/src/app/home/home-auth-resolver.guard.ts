@@ -1,20 +1,20 @@
-import { take } from 'rxjs/operators';
-import { UserService } from './../core/services/user.service';
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, Router, Resolve } from '@angular/router';
+import { Resolve } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
+import { AppState } from '../+state/app.reducer';
+import { appQuery } from './../+state/app.selectors';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HomeAuthResolverGuard implements Resolve<boolean> {
   constructor(
-    private userService: UserService
+    private store: Store<AppState>
   ) {}
 
-  resolve(
-    router: ActivatedRouteSnapshot
-  ): Observable<boolean> {
-    return this.userService.isAuthenticated.pipe(take(1));
+  resolve(): Observable<boolean> {
+    return this.store.select(appQuery.getIsAuthenticated).pipe(take(1));
   }
 }

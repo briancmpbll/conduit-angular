@@ -1,24 +1,23 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
+import { CanActivate } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { UserService } from '../services/user.service';
-import { take, map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
+import { appQuery } from '../../+state/app.selectors';
+import { AppState } from './../../+state/app.reducer';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NoAuthGuard implements CanActivate {
   constructor(
-    private userService: UserService
+    private store: Store<AppState>
   ) {}
 
-  canActivate(
-    next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): Observable<boolean> {
-    return this.userService.isAuthenticated.pipe(
+  canActivate(): Observable<boolean> {
+    return this.store.select(appQuery.getIsAuthenticated).pipe(
       take(1),
-      map(isAuthed => !isAuthed)
+      map(isAuthenticated => !isAuthenticated)
     );
   }
 }
