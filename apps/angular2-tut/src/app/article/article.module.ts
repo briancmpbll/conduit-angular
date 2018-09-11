@@ -9,6 +9,11 @@ import { ArticleResolverGuard } from './guards/article-resolver.guard';
 import { ArticleService } from './services/article.service';
 import { MarkdownPipe } from './markdown.pipe';
 import { ArticleCommentComponent } from './article-comment/article-comment.component';
+import { StoreModule, Store } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { initialState as articleInitialState, articleReducer } from './+state/article.reducer';
+import { ArticleEffects } from './+state/article.effects';
+import { AppState } from '../+state/app.reducer';
 
 const editorRouting = RouterModule.forChild([
   {
@@ -36,7 +41,9 @@ const editorRouting = RouterModule.forChild([
 @NgModule({
   imports: [
     editorRouting,
-    SharedModule
+    SharedModule,
+    StoreModule.forFeature('article', articleReducer, { initialState: articleInitialState }),
+    EffectsModule.forFeature([ArticleEffects])
   ],
   declarations: [
     ArticleEditorComponent,
@@ -50,4 +57,4 @@ const editorRouting = RouterModule.forChild([
     ArticleService
   ]
 })
-export class ArticleModule { }
+export class ArticleModule {}
