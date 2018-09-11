@@ -1,32 +1,31 @@
+import { mergeMap, map, catchError, tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { Effect, Actions, ofType } from '@ngrx/effects';
-import { DataPersistence } from '@nrwl/nx';
-
-import { ArticleState } from './article.reducer';
-import {
-  LoadArticleAction,
-  ArticleLoadedAction,
-  ArticleLoadErrorAction,
-  ArticleActionTypes
-} from './article.actions';
-import { ROUTER_NAVIGATION, RouterNavigationAction } from '@ngrx/router-store';
-import { filter, tap, mergeMap, map } from 'rxjs/operators';
+import { Actions, Effect } from '@ngrx/effects';
 import { ArticleService } from '../services/article.service';
-import { ActivatedRoute } from '@angular/router';
+import { LoadArticleAction, ArticleActionTypes, ArticleLoadedAction, ArticleLoadErrorAction } from './article.actions';
+import { of } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class ArticleEffects {
-  // @Effect({dispatch: false})
-  // routerNavigation$ = this.actions$.ofType<Router>().pipe(
-  //   filter(action => action.payload.event.url.startsWith('/article/')),
-  //   map(action => {
-  //     this.activatedRoute.snapshot.params
-  //   })
-  // );
-
   constructor(
     private actions$: Actions,
     private articleService: ArticleService,
-    private activatedRoute: ActivatedRoute
-  ) {}
+    private router: Router
+  ) { }
+
+  @Effect()
+  loadArticle$ = this.actions$.ofType<LoadArticleAction>(ArticleActionTypes.LoadArticle).pipe(
+    mergeMap(action => {
+      return this.articleService.get(action.payload).pipe(
+        map(article => new ArticleLoadedAction(article)),
+        catchError(err => of(new ArticleLoadErrorAction(err)))
+      );
+    })
+  );
+
+  @Effect({dispatch: false})
+  articleLoadError$ = this.actions$.ofType<ArticleLoadErrorAction>(ArticleActionTypes.ArticleLoadError).pipe(
+    tap(() => this.router.navigateByUrl('/'))
+  );
 }

@@ -1,3 +1,4 @@
+import { ArticleState } from './../+state/article.reducer';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -11,6 +12,8 @@ import { CommentService } from '../services/comment.service';
 import { appQuery } from './../../+state/app.selectors';
 import { Article } from './../../core/models/article.model';
 import { Subscription } from 'rxjs';
+import { articleQuery } from '../+state/article.selectors';
+import { ClearArticleAction } from '../+state/article.actions';
 
 @Component({
   selector: 'app-article',
@@ -27,10 +30,9 @@ export class ArticleComponent implements OnInit, OnDestroy {
   isSubmitting = false;
   isDeleting = false;
 
-  private userSubscription?: Subscription;
+  private subscriptions?: Subscription;
 
   constructor(
-    private route: ActivatedRoute,
     private articleService: ArticleService,
     private commentService: CommentService,
     private router: Router,
@@ -38,22 +40,24 @@ export class ArticleComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.route.data.subscribe(data => {
-      this.article = data.article;
+    this.subscriptions = this.store.select(articleQuery.getArticle).subscribe(article => {
+      this.article = article as Article;
       this.updateCanModify();
       this.populateComments();
     });
 
-    this.userSubscription = this.store.select(appQuery.getCurrentUser).subscribe((userData: User) => {
+    this.subscriptions.add(this.store.select(appQuery.getCurrentUser).subscribe((userData: User) => {
       this.currentUser = userData;
       this.updateCanModify();
-    });
+    }));
   }
 
   ngOnDestroy() {
-    if (this.userSubscription) {
-      this.userSubscription.unsubscribe();
+    if (this.subscriptions) {
+      this.subscriptions.unsubscribe();
     }
+
+    this.store.dispatch(new ClearArticleAction);
   }
 
   onToggleFavorite(favorited: boolean) {

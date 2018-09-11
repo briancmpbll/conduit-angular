@@ -1,29 +1,34 @@
+import { articleQuery } from './../+state/article.selectors';
+import { LoadArticleAction, ArticleActionTypes } from './../+state/article.actions';
+import { ArticleState } from './../+state/article.reducer';
 import { UserService } from '../../core/services/user.service';
 import { Article } from '../../core/models/article.model';
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, Resolve, Router } from '@angular/router';
+import { ActivatedRouteSnapshot, Resolve, Router, CanActivate } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { ArticleService } from '../services/article.service';
-import { catchError } from 'rxjs/operators';
+import { catchError, filter, map } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
+import { Actions } from '@ngrx/effects';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ArticleResolverGuard implements Resolve<Article | null> {
+export class ArticleResolverGuard implements CanActivate {
   constructor(
-    private articleService: ArticleService,
-    private router: Router,
-    private userService: UserService
+    private store: Store<ArticleState>,
+    private actions$: Actions
   ) {}
 
-  resolve(
+  canActivate(
     route: ActivatedRouteSnapshot
-  ): Observable<Article | null> {
-    return this.articleService.get(route.params.slug).pipe(
-      catchError(() => {
-        this.router.navigateByUrl('/');
-        return of(null);
-      })
+  ): Observable<boolean> {
+    this.store.dispatch(new LoadArticleAction(route.params.slug));
+
+    return this.actions$.pipe(
+      filter(action => action.type === ArticleActionTypes.ArticleLoaded ||
+        action.type === ArticleActionTypes.ArticleLoadError),
+      map(action => action.type === ArticleActionTypes.ArticleLoaded ? true : false)
     );
   }
 }

@@ -13,7 +13,6 @@ import { StoreModule, Store } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { initialState as articleInitialState, articleReducer } from './+state/article.reducer';
 import { ArticleEffects } from './+state/article.effects';
-import { AppState } from '../+state/app.reducer';
 
 const editorRouting = RouterModule.forChild([
   {
@@ -32,9 +31,7 @@ const editorRouting = RouterModule.forChild([
   {
     path: 'article/:slug',
     component: ArticleComponent,
-    resolve: {
-      article: ArticleResolverGuard
-    }
+    canActivate: [ArticleResolverGuard]
   }
 ]);
 
