@@ -9,7 +9,11 @@ import { Errors } from '../../core/models/errors.model';
 export class ErrorsListComponent implements OnInit {
   private formattedErrors: Array<string> = [];
 
-  @Input() set errors(errorList: Errors) {
+  @Input() set errors(errorList: Errors | undefined) {
+    if (!errorList) {
+      return;
+    }
+
     this.formattedErrors = [];
 
     if (errorList.errors) {

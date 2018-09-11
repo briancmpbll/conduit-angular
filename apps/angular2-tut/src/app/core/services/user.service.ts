@@ -24,10 +24,7 @@ export class UserService {
     const route = (type === 'login') ? 'login' : '';
     return this.http.post<{user: User}>(`/users/${route}`, {
       user: credentials
-    }).pipe(map(data => {
-      this.setAuth(data.user);
-      return data.user;
-    }));
+    }).pipe(map(data => data.user));
   }
 
   getCurrentUser(): User {

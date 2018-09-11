@@ -26,9 +26,33 @@ const getSelectedApp = createSelector(getAllApp, getSelectedId, (app, id) => {
   return result ? Object.assign({}, result) : undefined;
 });
 
+const getCurrentUser = createSelector(
+  getAppState,
+  (state: AppState) => state.currentUser
+);
+
+const getIsAuthenticated = createSelector(
+  getAppState,
+  (state: AppState) => state.isAuthenticated
+);
+
+const getLoginErrors = createSelector(
+  getAppState,
+  (state: AppState) => state.loginErrors
+);
+
+const getLoginSubmitting = createSelector(
+  getAppState,
+  (state: AppState) => state.loginSubmitting
+);
+
 export const appQuery = {
   getLoaded,
   getError,
   getAllApp,
-  getSelectedApp
+  getSelectedApp,
+  getCurrentUser,
+  getIsAuthenticated,
+  getLoginErrors,
+  getLoginSubmitting
 };
