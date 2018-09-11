@@ -31,7 +31,7 @@ export class FavoriteButtonComponent {
       }
 
       if (!this.article.favorited) {
-        this.articleService.favorite(this.article.slug)
+        this.articleService.favorite(this.article.slug as string)
         .pipe(
           finalize(() => this.isSubmitting = false)
         )
@@ -41,7 +41,7 @@ export class FavoriteButtonComponent {
           }
         );
       } else {
-        this.articleService.unfavorite(this.article.slug)
+        this.articleService.unfavorite(this.article.slug as string)
         .pipe(
           finalize(() => this.isSubmitting = false)
         )

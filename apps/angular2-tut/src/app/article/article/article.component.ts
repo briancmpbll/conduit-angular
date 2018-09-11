@@ -62,11 +62,11 @@ export class ArticleComponent implements OnInit {
   deleteArticle() {
     this.isDeleting = true;
 
-    this.articleService.destroy(this.article.slug)
+    this.articleService.destroy(this.article.slug as string)
     .pipe(
       finalize(() => this.isDeleting = false)
     )
-    .subscribe(success => this.router.navigateByUrl('/'));
+    .subscribe(() => this.router.navigateByUrl('/'));
   }
 
   addComment() {
@@ -74,7 +74,7 @@ export class ArticleComponent implements OnInit {
     this.commentFormErrors = [];
 
     const commentBody = this.commentControl.value;
-    this.commentService.add(this.article.slug, commentBody)
+    this.commentService.add(this.article.slug as string, commentBody)
     .pipe(
       finalize(() => this.isSubmitting = false)
     )
@@ -90,7 +90,7 @@ export class ArticleComponent implements OnInit {
   }
 
   onDeleteComment(comment: Comment) {
-    this.commentService.destroy(comment.id, this.article.slug)
+    this.commentService.destroy(comment.id, this.article.slug as string)
     .subscribe(() => this.comments = this.comments.filter((item) => item.id !== comment.id));
   }
 
@@ -99,7 +99,7 @@ export class ArticleComponent implements OnInit {
   }
 
   private populateComments() {
-    this.commentService.getAll(this.article.slug)
+    this.commentService.getAll(this.article.slug as string)
     .subscribe(comments => this.comments = comments);
   }
 
