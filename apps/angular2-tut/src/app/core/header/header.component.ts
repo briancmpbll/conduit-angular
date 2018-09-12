@@ -1,4 +1,4 @@
-import { appQuery } from './../../+state/app.selectors';
+import { authQuery } from '../../auth/+state/auth.selectors';
 import { Store } from '@ngrx/store';
 import { Component, OnInit } from '@angular/core';
 import { User } from '../models/user.model';
@@ -18,7 +18,7 @@ export class HeaderComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.user$ = this.store.select(appQuery.getCurrentUser);
+    this.user$ = this.store.select(authQuery.getCurrentUser);
   }
 
 }

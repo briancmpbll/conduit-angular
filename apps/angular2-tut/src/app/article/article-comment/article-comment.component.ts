@@ -1,10 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../+state/app.reducer';
-import { appQuery } from '../../+state/app.selectors';
 import { Comment } from '../../core/models/comment.model';
 import { User } from './../../core/models/user.model';
 import { Subscription } from 'rxjs';
+import { authQuery } from '../../auth/+state/auth.selectors';
 
 @Component({
   selector: 'app-article-comment',
@@ -24,7 +24,7 @@ export class ArticleCommentComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.userSubscription = this.store.select(appQuery.getCurrentUser).subscribe((userData: User) => {
+    this.userSubscription = this.store.select(authQuery.getCurrentUser).subscribe((userData: User) => {
       this.canModify = userData.username === this.comment.author.username;
     });
   }

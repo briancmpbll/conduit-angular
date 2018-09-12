@@ -5,8 +5,8 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { AppState } from '../../+state/app.reducer';
-import { LogoutAction } from './../../+state/app.actions';
-import { appQuery } from './../../+state/app.selectors';
+import { LogoutAction } from '../../auth/+state/auth.actions';
+import { authQuery } from '../../auth/+state/auth.selectors';
 import { User } from './../../core/models/user.model';
 import { UserService } from './../../core/services/user.service';
 
@@ -39,7 +39,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.userSubscription = this.store.select(appQuery.getCurrentUser).subscribe(newUser => {
+    this.userSubscription = this.store.select(authQuery.getCurrentUser).subscribe(newUser => {
       this.user = newUser;
       this.settingsForm.patchValue(this.user);
     });

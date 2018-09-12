@@ -3,11 +3,11 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { LoginAction } from '../../+state/app.actions';
 import { AppState } from '../../+state/app.reducer';
+import { LoginAction } from '../+state/auth.actions';
+import { authQuery } from '../+state/auth.selectors';
 import { Errors } from '../../core/models/errors.model';
 import { AuthCredentials } from '../../core/models/user.model';
-import { appQuery } from './../../+state/app.selectors';
 
 @Component({
   selector: 'app-auth',
@@ -40,8 +40,8 @@ export class AuthComponent implements OnInit {
       this.authForm.addControl('username', new FormControl('', Validators.required));
     }
 
-    this.errors$ = this.store.select(appQuery.getLoginErrors);
-    this.loginSubmitting$ = this.store.select(appQuery.getLoginSubmitting);
+    this.errors$ = this.store.select(authQuery.getLoginErrors);
+    this.loginSubmitting$ = this.store.select(authQuery.getLoginSubmitting);
   }
 
   submitForm() {

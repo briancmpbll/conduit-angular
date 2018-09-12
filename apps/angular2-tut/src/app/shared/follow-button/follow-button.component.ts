@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { finalize, first } from 'rxjs/operators';
 import { ProfileService } from '../../core/services/profile.service';
 import { AppState } from './../../+state/app.reducer';
-import { appQuery } from './../../+state/app.selectors';
+import { authQuery } from '../../auth/+state/auth.selectors';
 import { Profile } from './../../core/models/profile.model';
 
 @Component({
@@ -26,7 +26,7 @@ export class FollowButtonComponent {
   toggleFollowing() {
     this.isSubmitting = true;
 
-    this.store.select(appQuery.getIsAuthenticated).pipe(first())
+    this.store.select(authQuery.getIsAuthenticated).pipe(first())
     .subscribe(authenticated => {
       if (!authenticated) {
         this.router.navigateByUrl('/login');

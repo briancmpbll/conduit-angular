@@ -1,19 +1,18 @@
-import { ArticleState } from './../+state/article.reducer';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
+import { ClearArticleAction } from '../+state/article.actions';
+import { articleQuery } from '../+state/article.selectors';
 import { AppState } from '../../+state/app.reducer';
 import { Comment } from '../../core/models/comment.model';
 import { User } from '../../core/models/user.model';
 import { ArticleService } from '../services/article.service';
 import { CommentService } from '../services/comment.service';
-import { appQuery } from './../../+state/app.selectors';
+import { authQuery } from '../../auth/+state/auth.selectors';
 import { Article } from './../../core/models/article.model';
-import { Subscription } from 'rxjs';
-import { articleQuery } from '../+state/article.selectors';
-import { ClearArticleAction } from '../+state/article.actions';
 
 @Component({
   selector: 'app-article',
@@ -46,7 +45,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
       this.populateComments();
     });
 
-    this.subscriptions.add(this.store.select(appQuery.getCurrentUser).subscribe((userData: User) => {
+    this.subscriptions.add(this.store.select(authQuery.getCurrentUser).subscribe((userData: User) => {
       this.currentUser = userData;
       this.updateCanModify();
     }));

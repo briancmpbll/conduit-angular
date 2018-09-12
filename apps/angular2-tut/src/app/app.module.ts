@@ -45,7 +45,9 @@ const rootRouting: ModuleWithProviders = RouterModule.forRoot([], {
         router: routerReducer
       },
       {
-        initialState : { app : appInitialState },
+        initialState : {
+          app : appInitialState,
+        },
         metaReducers : !environment.production ? [storeFreeze] : []
       }
     ),

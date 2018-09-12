@@ -19,20 +19,11 @@ export interface AppState {
   selectedId?: string | number; // which App record has been selected
   loaded: boolean; // has the App list been loaded
   error?: any; // last none error (if any)
-
-  currentUser: User;
-  isAuthenticated?: boolean;
-  loginSubmitting: boolean;
-  loginErrors: Errors;
 }
 
 export const initialState: AppState = {
   list: [],
-  loaded: false,
-
-  currentUser: new User,
-  loginSubmitting: false,
-  loginErrors: new Errors
+  loaded: false
 };
 
 export function appReducer(
@@ -45,44 +36,6 @@ export function appReducer(
         ...state,
         list: action.payload,
         loaded: true
-      };
-      break;
-    }
-
-    case AppActionTypes.Login: {
-      state = {
-        ...state,
-        loginErrors: new Errors,
-        loginSubmitting: true
-      };
-      break;
-    }
-
-    case AppActionTypes.ExistingUserSuccess:
-    case AppActionTypes.LoginSuccess: {
-      state = {
-        ...state,
-        currentUser: action.payload,
-        isAuthenticated: true,
-        loginSubmitting: false
-      };
-      break;
-    }
-
-    case AppActionTypes.LoginError: {
-      state = {
-        ...state,
-        loginErrors: action.payload,
-        loginSubmitting: false
-      };
-      break;
-    }
-
-    case AppActionTypes.LogoutSuccess: {
-      state = {
-        ...state,
-        currentUser: new User,
-        isAuthenticated: false
       };
       break;
     }

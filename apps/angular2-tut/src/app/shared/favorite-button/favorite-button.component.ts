@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { finalize, first } from 'rxjs/operators';
 import { AppState } from '../../+state/app.reducer';
 import { ArticleService } from '../../article/services/article.service';
-import { appQuery } from './../../+state/app.selectors';
+import { authQuery } from '../../auth/+state/auth.selectors';
 import { Article } from './../../core/models/article.model';
 
 @Component({
@@ -26,7 +26,7 @@ export class FavoriteButtonComponent {
   toggleFavorite() {
     this.isSubmitting = true;
 
-    this.store.select(appQuery.getIsAuthenticated).pipe(first())
+    this.store.select(authQuery.getIsAuthenticated).pipe(first())
     .subscribe((authenticated) => {
       if (!authenticated) {
         this.router.navigateByUrl('/login');

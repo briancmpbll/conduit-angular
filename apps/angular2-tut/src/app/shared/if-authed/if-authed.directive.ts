@@ -1,8 +1,8 @@
+import { authQuery } from '../../auth/+state/auth.selectors';
 import { Directive, Input, OnDestroy, OnInit, TemplateRef, ViewContainerRef } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { AppState } from '../../+state/app.reducer';
-import { appQuery } from './../../+state/app.selectors';
 
 @Directive({
   selector: '[appIfAuthed]'
@@ -25,7 +25,7 @@ export class IfAuthedDirective implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.subscription = this.store.select(appQuery.getIsAuthenticated).subscribe(isAuthenticated => {
+    this.subscription = this.store.select(authQuery.getIsAuthenticated).subscribe(isAuthenticated => {
       this.isAuthenticated = isAuthenticated;
       this.updateVisibility();
     });

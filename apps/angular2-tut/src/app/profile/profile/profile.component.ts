@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../+state/app.reducer';
-import { appQuery } from './../../+state/app.selectors';
+import { authQuery } from '../../auth/+state/auth.selectors';
 import { Profile } from './../../core/models/profile.model';
 import { User } from './../../core/models/user.model';
 
@@ -27,7 +27,7 @@ export class ProfileComponent implements OnInit {
       this.checkIsUser();
     });
 
-    this.store.select(appQuery.getCurrentUser).subscribe(userData => {
+    this.store.select(authQuery.getCurrentUser).subscribe(userData => {
       this.currentUser = userData;
       this.checkIsUser();
     });

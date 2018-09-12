@@ -3,8 +3,8 @@ import { CanActivate } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map, first } from 'rxjs/operators';
-import { appQuery } from '../../+state/app.selectors';
 import { AppState } from './../../+state/app.reducer';
+import { authQuery } from '../../auth/+state/auth.selectors';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +15,7 @@ export class NoAuthGuard implements CanActivate {
   ) {}
 
   canActivate(): Observable<boolean> {
-    return this.store.select(appQuery.getIsAuthenticated).pipe(
+    return this.store.select(authQuery.getIsAuthenticated).pipe(
       first(),
       map(isAuthenticated => !isAuthenticated)
     );
